@@ -26,7 +26,7 @@
                             <br>
                             <br>
                             <tr>
-                                <input class="check" type="checkbox" v-model="user.remember">
+                                
                                 <label @click.prevent="user.remember = !user.remember">Remember me</label>
                             </tr>
                             <tr class='tr'>
@@ -240,6 +240,9 @@
         margin-bottom: 15px;
         border-radius: 0;
         opacity: 1!important;
+        position: absolute;
+        left: 350px;
+        top: -3px;
         background-color: none;
         box-shadow: none;
 

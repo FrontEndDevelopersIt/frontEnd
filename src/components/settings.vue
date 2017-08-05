@@ -46,7 +46,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     .divSettings {
         background-color: white;
         height: 89.5vh;padding-top: 30px;
@@ -94,7 +94,7 @@
         border-radius: 10px;
         color: snow;
         margin-left:  200px;
-        
+
     }
     #buttonConfirm:hover { background: rgb(127, 207, 255); }
     #buttonConfirm:active { background: rgb(94, 126, 152); }
@@ -108,7 +108,7 @@
         border-radius: 10px;
         color: black;
         padding-left: 5px;
-        border: none!important; 
+        border: none!important;
         padding-left: 10px!important;
         position: relative;
         height: 35px;

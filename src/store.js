@@ -6,104 +6,91 @@ import VueAxios from 'vue-axios'
 Vue.use(Vuex)
 Vue.use(VueAxios, axios)
 const store = new Vuex.Store({
-    
+
 state: {
     total: 2,
+    vacancyDetails: [],
     posts: [],
-    currentPage: 1, 
-    pageRanger: 1, 
+    currentPage: 1,
+    pageRanger: 1,
     pageRange: 2,
     totalPage: 30,
     perPage: 10,
     page: 1,
     id: null,
     link: "https://jobs.tut.by/vacancy/21716043?query=Junior",
-    dateFrom: '1498739580000',
-    dateNew: null, 
-    
-        
+
+
+
 
   },
      mutations: {
          posts(state, {item}) {
              state.posts = item
-         },                  
+         },
          currentPage(state, {item}) {
              state.currentPage = item
-         },         
-         total(state, {item}) {
-             state.total = item
-         },         
+         },
+         totalPage(state, {item}) {
+             state.totalPage = item
+         },
          id(state, {item}) {
              state.id = item
          },
-         dateNew(state, {item}){
-             state.dateNew = item
+
+         vacancyDetails(state, {item}){
+           state.vacancyDetails = item
          }
-         
+
 
 
 
      },
      getters: {
 
-                   
+
      },
     actions: {
         allPosts: function ({ commit }, page, limit ) {
             var options = {
                 params: {
-                    _page: page,
-                    _limit: limit
+                    page: page,
+                    limit: limit
                     }
                 }
-        axios.get('https:/jsonplaceholder.typicode.com/comments', options).then((response) => {
-            console.log(response)
-            commit('posts', { item: response.data })
-            commit('id', { item: response.data.id })
+        axios.get('http://localhost/api/vacancy', options).then((response) => {
+            console.log(response.data.data)
+            commit('posts', { item: response.data.data})
             commit('currentPage', { item: page })
-            commit('total', { item: response.data.length })
+            commit('totalPage', { item: response.data.last_page })
             }, (err) => {
             console.log(err)
-            
+
           })
-    },         
-        
-        
-        onePost: function ({ commit }, limit ) {
+    },
+
+
+        vacancyDetails: function ({ commit }, id ) {
             var options = {
                 params: {
-                    _limit: limit
+                    id: id
                     }
                 }
-        axios.get('https:/jsonplaceholder.typicode.com/comments', options).then((response) => {
-            commit('posts', { item: response.data })
-            commit('id', { item: response.data.id })
- 
+        axios.get('http://localhost/api/vacancy/'+id).then((response) => {
+            console.log(response.data)
+            commit('vacancyDetails', { item: response.data })
             }, (err) => {
             console.log(err)
-            
-          })
-    }, 
-        
-        link() {
-            var x = store.state.link
-            return parent.location = x
-            },
-        
-        
-        date({commit}){
-                var x = parseInt(store.state.dateFrom);
-                var d = new Date(x) ;
-                var month = d.getUTCMonth() + 1; 
-                var day = d.getUTCDate();
-                var year = d.getUTCFullYear();
-                var newdate = day + "/" + month + "/" + year;
-                commit('dateNew', { item: newdate })
-            },
-        
 
-      
-    }   
+          })
+    },
+
+
+
+
+
+
+
+    }
 })
  export default store

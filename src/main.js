@@ -7,7 +7,7 @@ import style from 'vue-material/dist/vue-material.css'
 import VueTruncate from 'vue-truncate'
 import VueRouter from 'vue-router'
 import store from './store'
-import axios from 'axios' 
+import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Vuelidate from 'vuelidate'
 
@@ -42,14 +42,18 @@ const router = new VueRouter({
     { path: '/settings', component: settings},
     { path: '/singIn', component: singIn },
     { path: '/registration', component: registration},
-    { path: '/contacts', component: contacts }, 
-    { path: '/post/:id', name: 'post', component: post },
+    { path: '/contacts', component: contacts },
+    { path: '/vacancy/:id', name: 'vacancy', component: post },
     { path: '/:page/', name: 'page', component: mainPage },
     { path: '/1', alias: '/', component: mainPage},
-   
-    
 
-  ]})
+
+
+  ],
+  scrollBehavior (to, from, savedPosition) {
+  return { x: 0, y: 0 }
+}
+})
 
 
 
@@ -58,24 +62,7 @@ new Vue({
   router: router,
     store,
     components: {myheader, filtration}
-    
-    
-    
+
+
+
 })
-
-
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-

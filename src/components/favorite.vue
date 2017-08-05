@@ -1,5 +1,5 @@
 <template>
-    
+
     <span>
         <a href="#" v-if="isFavorited" @click.prevent="unFavorite(favPost)">
             <i class="material-icons">star</i>
@@ -9,15 +9,15 @@
         </a>
     </span>
 
-    
-    
+
+
 </template>
 
 
 
 
 <script>
-    import Vue from 'vue'
+import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
@@ -46,22 +46,22 @@ export default {
             isFavorite() {
                 return this.favorited;
             },
-        
+
         },
     methods: {
             favorite(post) {
-                axios.post('/favorite/'+this.favPost)
+                axios.post('http://localhost/api/vacancy/favorite/'+this.favPost)
                     .then(response => this.isFavorited = true)
                     .catch(response => console.log(response.data));
-            },  
+            },
 
             unFavorite(post) {
-                axios.post('/unfavorite/'+this.favPost)
+                axios.delete('http://localhost/api/vacancy/favorite/'+this.favPost)
                     .then(response => this.isFavorited = false)
                     .catch(response => console.log(response.data));
             }
         }
-    
+
 }
 
 
