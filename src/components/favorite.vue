@@ -50,13 +50,15 @@ export default {
         },
     methods: {
             favorite(post) {
-                axios.post('http://localhost/api/vacancy/favorite/'+this.favPost)
-                    .then(response => this.isFavorited = true)
+                axios.post('http://localhost/api/vacancy', [this.favPost])
+                    .then(response => this.isFavorited = true
+
+                    )
                     .catch(response => console.log(response.data));
             },
 
             unFavorite(post) {
-                axios.delete('http://localhost/api/vacancy/favorite/'+this.favPost)
+                axios.delete('http://localhost/api/vacancy/', [this.favPost])
                     .then(response => this.isFavorited = false)
                     .catch(response => console.log(response.data));
             }

@@ -39,6 +39,7 @@ const router = new VueRouter({
     linkActiveClass: 'active',
     transitionOnLoad: true,
     routes: [
+
     { path: '/settings', component: settings},
     { path: '/singIn', component: singIn },
     { path: '/registration', component: registration},
@@ -46,6 +47,7 @@ const router = new VueRouter({
     { path: '/vacancy/:id', name: 'vacancy', component: post },
     { path: '/:page/', name: 'page', component: mainPage },
     { path: '/1', alias: '/', component: mainPage},
+
 
 
 

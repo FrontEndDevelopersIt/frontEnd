@@ -47,9 +47,9 @@
         border-radius: 5px;
         color: snow;
         position: relative;
-        
-        
-        
+
+
+
     }
 
 
@@ -63,7 +63,7 @@
         width: 200px;
         background-color: white;
         border-radius: 5px;
-        
+
     }
     .profileFlex button {
         background-color: #039BE5;
@@ -72,7 +72,7 @@
         width: 100%;
         margin-bottom: 1px;
         padding: 10px 5px;
-        
+
     }
     .profileFlex button:hover { background: rgb(127, 207, 255); }
     .profileFlex button:active { background: rgb(94, 126, 152); }
@@ -83,7 +83,7 @@
     .fade-enter, .fade-leave-to {
         opacity: 0
     }
-    
-    
-    
+
+
+
 </style>

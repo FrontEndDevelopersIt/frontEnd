@@ -10,7 +10,6 @@
                 <tr>
                     <div class="try">
                         <label class="lbl"><p>NickName:</p></label></div>
-
                 </tr>
                 <tr>
                     <div class="login">
@@ -19,12 +18,7 @@
                         <span class="error error_control" v-show="isError">{{ userMsg  }}</span>
                     </div>
                 </tr>
-
-
-
-
                 <br>
-
                 <tr>
                     <div class="try">
                         <label class="lbl"><p>Email:</p></label>
@@ -68,7 +62,6 @@
                             {{ passwordMsg }}
                         </span>
                 </tr>
-
                 <tr>
                     <div class="try">
                         <label class="lbl"><p>Confirm password:</p></label>
@@ -85,13 +78,11 @@
                 </tr>
                 <br>
                 <br>
-
                 <tr class="checkbox_tr">
                     <div class="checkbox">
                         <p>I want to receive newsletters about new vacancies</p><input type="checkbox" class = "chbox" id="chbox" v-model="newUser.mailing">
                     </div>
                 </tr>
-
                 <br>
                 <tr>
                     <button :class="{active: disableBtn}" :disabled="disableBtn" @click.prevent="onSignUp">
