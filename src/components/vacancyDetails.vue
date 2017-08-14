@@ -54,10 +54,13 @@
             <p>Следующая вакансия</p>
           </div>
         </div>
+
+        <div class="map">
+
+        </div>
       </div>
     </div>
   </div>
-
 </div>
 </template>
 
@@ -67,17 +70,13 @@ export default {
   data() {
     return {
       next: null,
+      mapName: this.name + "-map",
     }
   },
+  props: ['name'],
   computed: {
     vacancyDetails() {
       return this.$store.state.vacancyDetails
-    },
-    totalPage: function() {
-      return this.$store.state.totalPage
-    },
-    currentPage() {
-      return this.$store.state.currentPage
     },
 
   },
@@ -88,8 +87,6 @@ export default {
 
     }
   },
-
-
   methods: {
     date(n) {
       var x = parseInt(n);
@@ -117,9 +114,18 @@ export default {
 
   created: function() {
     this.$store.dispatch('vacancyDetails', this.$route.params.id)
+    this.$store.dispatch('getMap')
       this.nextVacancy()
 
   },
+  mounted: function () {
+    const element = document.getElementById(this.mapName)
+    const options = {
+      zoom: 14,
+      center: new google.maps.LatLng(51.501527,-0.1921837)
+    }
+    const map = new google.maps.Map(element, options);
+  }
 
 }
 </script>
@@ -442,5 +448,12 @@ background: #F2F9FE;
   color: white;
   display: inline-block;
   margin-top: 10px;
+}
+
+.map {
+  width: 800px;
+  height: 600px;
+  margin: 0 auto;
+  background: gray;
 }
 </style>

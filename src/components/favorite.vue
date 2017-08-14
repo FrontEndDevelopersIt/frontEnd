@@ -1,5 +1,4 @@
 <template>
-
     <span>
         <a href="#" v-if="isFavorited" @click.prevent="unFavorite(favPost)">
             <i class="material-icons">star</i>
@@ -8,9 +7,6 @@
             <i class="material-icons">star_border</i>
         </a>
     </span>
-
-
-
 </template>
 
 

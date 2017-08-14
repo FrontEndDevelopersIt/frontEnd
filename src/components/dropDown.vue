@@ -1,12 +1,15 @@
 <template>
-    <div>
-        <div class="showButtonFlex">
-            <button id="showProfileButton" @click="showProfile">Profile</button>
+    <div >
+      <div class="">
+        <div class="showButtonFlex" >
+            <button id="showProfileButton" v-on:mouseover="showProfile()" >Profile</button>
         </div>
         <div></div>
-        <div class="profileBox">
+        <div class="" >
+
+        <div class="profileBox" >
             <transition name="fade">
-                <div class="profileFlex" v-if="show">
+                <div class="profileFlex" v-if="show" >
                     <router-link to="/settings"><button>Настройки</button>
                     </router-link>
                     <router-link to="/favoriteVacancies"><button>Vacancies</button></router-link>
@@ -14,24 +17,29 @@
                 </div>
             </transition>
         </div>
+          </div>
     </div>
+        </div>
 </template>
 
 
 <script>
     export default {
         name: "dropDown",
-        data(){
-            return {
-                show: false
-            }
+        computed: {
+              show() {
+                return this.$store.state.show
+              }
         },
         methods: {
             logOut: function (){
                 $window.localStorage.clear();
             },
             showProfile: function () {
-                this.show = !this.show;
+                this.$store.dispatch('showProfile')
+            },
+            hideProfile(){
+              this.$store.dispatch('hideProfile')
             }
         }
     }
@@ -83,7 +91,6 @@
     .fade-enter, .fade-leave-to {
         opacity: 0
     }
-
 
 
 </style>

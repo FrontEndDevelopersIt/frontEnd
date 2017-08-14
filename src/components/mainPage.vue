@@ -1,5 +1,5 @@
 <template>
-<div class="mainPage">
+<div class="mainPage" v-on:mouseover="hideProfile()">
 
   <div class="section_1">
     <filtration></filtration>
@@ -7,10 +7,11 @@
 
   <div class="section_2">
 
-    <paginationtest v-bind:col='parseInt(this.$route.params.page)' v-bind:dot="parseInt(this.total)"></paginationtest>
+    <pagination v-bind:col='parseInt(this.$route.params.page)' v-bind:dot="parseInt(this.totalPages)"></pagination>
 
     <br>
-    <div class="container">
+    <div class="container" >
+      <div class="oops" v-if='vacanciesPerPage.length == 0'><p>Ooops, вакансии по данным критериям отсуствуют</p> </div>
       <div class="vacancy" v-for="(vacancy, index) in vacanciesPerPage">
         <router-link :to="{name: 'vacancy', params: {id:vacancy.id ,index:index}}">
           <div class="top_cont">
@@ -51,34 +52,30 @@
                   <span class="link">
                             <i class="material-icons">view_headline</i>Подробнее
                         </span >
-
-
                     <div class="square_button"></div>
                 </div>
             </div>
-
             </div>
         </div>
           </router-link>
           </div>
     </div>
     <br>
-  <paginationtest v-bind:col='parseInt(this.$route.params.page)' v-bind:dot="parseInt(this.total)"></paginationtest>
+  <pagination v-bind:col='parseInt(this.$route.params.page)' v-bind:dot="parseInt(this.totalPages)"></pagination>
      </div>
 
     </div>
 </template>
 
 <script>
-import paginationtest from './paginationTest.vue'
+import pagination from './pagination.vue'
 import favorite from './favorite.vue'
 import filtration from './filtration.vue'
-
 
 export default {
   name: "mainPage",
   components: {
-    paginationtest,
+    pagination,
     favorite,
     filtration
   },
@@ -89,19 +86,20 @@ export default {
 
   },
   computed: {
-    total() {
-      return this.$store.state.totalPage
+    totalPages() {
+      return this.$store.state.totalPages
     },
     vacanciesPerPage() {
       return this.$store.state.vacanciesPerPage
-    },
-    currentPage() {
-      return this.$store.state.currentPage
     },
   },
   methods: {
     getVacancies(page, limit) {
       this.$store.dispatch('getVacancies', page, limit)
+
+    },
+    hideProfile() {
+      this.$store.dispatch('hideProfile')
     },
     date(n) {
       var x = parseInt(n);
@@ -111,35 +109,12 @@ export default {
       var year = d.getUTCFullYear();
       var newdate = day + "/" + month + "/" + year;
       return newdate
-
     },
 
-    ind(n) {
-      alert(n)
-    },
-    favorite() {
-      alert("mcds")
-    }
-
-
-
-
-
-
   },
-  watch: {
-    'this.$route.params.page' (al) {
-      this.getVacancies(all)
-    }
-  },
-
   created() {
+    this.$store.commit("filterIndicator", false)
     this.getVacancies(this.$route.params.page, 1)
-
-
-
-
-
 
   }
 }
@@ -512,8 +487,8 @@ a:-webkit-any-link {
 
 .vacancy_cont:active {
   padding: 1.5px;
-  <paginationtest v-bind: col='parseInt(this.$route.params.page)';
-  v-bind: dot="parseInt(this.total)";
+  <pagination v-bind: col='parseInt(this.$route.params.page)';
+  v-bind: dot="parseInt(this.totalPages)";
   transition: 0.05;
 }
 
@@ -560,5 +535,12 @@ a:-webkit-any-link {
 
 .description_body>>>strong {
   font-weight: 300!important;
+}
+
+.oops>p {
+  font-size: 14px;
+  text-align: center;
+  margin-top: 70px;
+
 }
 </style>

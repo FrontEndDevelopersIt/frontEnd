@@ -1,70 +1,45 @@
-
-import Vue from 'vue'
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.css'
-import css from 'vue-material/dist/vue-material.css'
-import style from 'vue-material/dist/vue-material.css'
-import VueTruncate from 'vue-truncate'
+//Libraries
+import Vue from 'vue'  //main
 import VueRouter from 'vue-router'
-import store from './store'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import Vuelidate from 'vuelidate'
-
-
-
-
-Vue.use(VueMaterial)
+import store from './store' //Vuex
+import axios from 'axios' //For routes
+import VueAxios from 'vue-axios' //For routes
+import Vuelidate from 'vuelidate' //For favorites
+import css from 'vue-material/dist/vue-material.css' //for flex
+//Libraries activation
 Vue.use(VueRouter)
 Vue.use(VueAxios, axios)
 Vue.use(Vuelidate)
-
-
+//Import all components
 import settings from './components/settings.vue'
 import mainPage from './components/mainPage.vue'
 import singIn from './components/singIn.vue'
 import filtration from './components/filtration.vue'
 import favorite from './components/favorite.vue'
 import dropDown from './components/dropDown.vue'
-import post from './components/post.vue'
-import contacts from './components/contacts.vue'
+import vacancyDetails from './components/vacancyDetails.vue'
 import myheader from './components/myheader.vue'
 import registration from './components/registration.vue'
-
-
-
+//Activate Vue-Router
 const router = new VueRouter({
-    mode: 'history',
+    mode: 'history', //without hash
     hashbang: false,
-    linkActiveClass: 'active',
-    transitionOnLoad: true,
     routes: [
-
     { path: '/settings', component: settings},
     { path: '/singIn', component: singIn },
     { path: '/registration', component: registration},
-    { path: '/contacts', component: contacts },
-    { path: '/vacancy/:id', name: 'vacancy', component: post },
+    { path: '/vacancy/:id', name: 'vacancy', component: vacancyDetails },
     { path: '/:page/', name: 'page', component: mainPage },
     { path: '/1', alias: '/', component: mainPage},
-
-
-
-
-  ],
-  scrollBehavior (to, from, savedPosition) {
+    ],
+  scrollBehavior (to, from, savedPosition) { //scroll always top after reload
   return { x: 0, y: 0 }
 }
 })
-
-
-
+//Main vue-builder
 new Vue({
   el: '#app',
   router: router,
     store,
     components: {myheader, filtration}
-
-
-
 })

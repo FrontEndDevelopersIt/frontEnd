@@ -1,64 +1,49 @@
 <template>
+  <div>
 <div class="column">
-
-
   <div class="filt">
     <div class="filt_title">
       <h5>Фильтрация</h5>
     </div>
-
     <div class="filt_by_city">
       <p>Город:</p>
-
       <div class="bloc">
-        <select type="text" name="city" class="select_by_city" size="6" v-model="city">
-        <option> Брест </option>
-        <option> Витебск </option>
-        <option> Гомель </option>
-        <option> Гродно </option>
-        <option> Минск </option>
+    <select type="text" name="city" class="select_by_city" size="6" v-model="city" v-on:click="cityFunc(city)">
+        <option value="Брест"> Брест</option>
+        <option value="Витебск"> Витебск</option>
+        <option value="Гомель"> Гомель</option>
+        <option value="Гродно"> Гродно</option>
+        <option value="Минск">  Минск </option>
    </select>
       </div>
     </div>
-
     <div class="filt_by_employment">
       <p>Тип занятости:</p>
       <div class="bloc">
-
-        <select type="text" name="employment" class="select_by_employment" size="6" v-model="employment">
-        <option> Полная занятость</option>
-        <option> Частичная занятость</option>
-        <option> Проектная работа</option>
-        <option> Стажировка</option>
+        <select type="text" name="employment" class="select_by_employment" size="6" v-model="employment" v-on:click="employmentFunc(employment)">
+        <option value="Полная занятость"> Полная занятость</option>
+        <option value="Частичная занятость"> Частичная занятость</option>
+        <option value="Проектная работа"> Проектная работа</option>
+        <option value="Стажировка"> Стажировка</option>
    </select>
       </div>
     </div>
-    <br>
-
-    <transition name="bounce">
-      <button class="delete" v-if="this.city!=null || this.employment!=null"><i class="material-icons" @click="delete_select">delete</i></button>
-    </transition>
-    <transition name="bounce">
-      <button v-if="this.city!=null || this.employment!=null" @click="query_filt">Отправить</button>
-    </transition>
   </div>
-
   <div class="filt statistics">
     <span>Всего вакансий:</span> <b>{{this.$store.state.totalVacancies}}</b> <br>
     <span class="on_Page">На странице:</span>
-    <select class="select_count_page" name="" v-model="pageValue" v-on:change="vacancyCountSwitcher(pageValue)">
+    <select class="select_count_page" name="10" v-model="pageValue" v-on:change="vacancyCountSwitcher(pageValue)">
         <option >10</option>
         <option>15</option>
-        <option >30</option>
-        <option >45</option>
+        <option>30</option>
+        <option>45</option>
         <option>50</option>
         <option>100</option>
       </select>
   </div>
-
 </div>
+  </div>
 </template>
-
 
 
 <script>
@@ -70,71 +55,68 @@ export default {
   name: 'filtration',
   data() {
     return {
-      city: null,
-      employment: null,
       id: null,
       pageValue: 10,
-      statisticMinsk: [],
-      statisticGrodno: [],
-      statisticBrest: [],
-      statisticVitebsk: [],
-      statisticGomel: [],
-      show: false
-
+      cityMassive: [],
+      employmentMassive: [],
+    }
+  },
+  computed: {
+    city: {
+      set(value) {
+        this.$store.commit("cityCommit", value)
+      },
+      get() {
+        return this.$store.getters.city
+      }
+    },
+    employment: {
+      set(value) {
+        this.$store.commit("employmentCommit", value)
+      },
+      get() {
+        return this.$store.getters.employment
+      }
     }
   },
   methods: {
-    query_filt(e) {
-      var options = {
-          params: {
-              city: this.city,
-              employment: this.employment + ", полный день"
-              }
-          }
-      axios.get('http://localhost/api/filter', options).then(function(response) {
-          console.log(response)
-          alert(JSON.stringify(response.data, null, '\t'))
-        })
-        .catch(function(error) {
-          alert(error)
-        })
-      e.preventDefault();
-    },
-    delete_select() {
-      this.city = null
-      this.employment = null
-    },
-    game() {
-      var x = this.$store.state.allVacancies
-      for (var i = 0; i < x.length; i++) {
-        if (x[i].location == 'Минск') {
-          this.statisticMinsk.push(1)
-        }
-        if (x[i].location == 'Гродно') {
-          this.statisticGrodno.push(1)
-        }
-        if (x[i].location == 'Витебск') {
-          this.statisticVitebsk.push(1)
-        }
-        if (x[i].location == 'Гомель') {
-          this.statisticGomel.push(1)
-        }
-        if (x[i].location == 'Брест') {
-          this.statisticBrest.push(1)
-        }
-      }
-    },
-    vacancyCountSwitcher(val) {
-      this.$store.state.perPage = parseInt(val)
+    vacancyCountSwitcher(pageValue) {
+      this.$store.state.perPage = parseInt(pageValue)
       this.$store.dispatch('getVacancies')
     },
-    shown() {
-      alert("kvfdm")
+    cityFunc(city) {
+      if(this.$store.state.city == this.cityMassive[0]) {
+          this.$store.commit("cityCommit", null)
+          this.$store.commit("filterIndicator", false)
+          this.$store.dispatch('getVacancies')
+      } else {
+          this.$store.commit("filterIndicator", true)
+          this.$store.commit("cityCommit", city)
+          this.$store.dispatch('getVacancies')
+          this.cityMassive.shift()
+          this.cityMassive.push(city)
+    }
     },
 
-  },
-  created: function() {
+    employmentFunc(employment) {
+      if(this.$store.state.employment == this.employmentMassive[0]) {
+          this.$store.commit("employmentCommit", null)
+          this.$store.commit("filterIndicator", false)
+          this.$store.dispatch('getVacancies')
+      } else {
+          this.$store.commit("filterIndicator", true)
+          this.$store.commit("employmentCommit", employment)
+          this.$store.dispatch('getVacancies')
+          this.employmentMassive.shift()
+          this.employmentMassive.push(employment)
+    }
+    },
+    getVacancies() {
+      this.$store.commit("filterIndicator", true)
+      this.$store.dispatch('getVacancies')
+    }
   }
+
 }
 </script>
 
@@ -142,9 +124,19 @@ export default {
 
 
 <style scoped>
+input {
+  width: 50%;
+  background-color: red;
+  padding: 20px;
+  color: black;
+  opacity: 2!important;
+  left: 0px!important;
+  position: relative!important;
+  min-width: 50px;
+}
+
 .filt {
   background-color: #fffbf8;
-  height: 500px;
   overflow: hidden;
   margin-left: 35px;
   margin-top: 35px;
@@ -368,16 +360,11 @@ option p {
   float: right;
   vertical-align: top;
   margin-bottom: 10px;
-
 }
 
 .on_Page {
   line-height: 27px;
-
-
 }
 
-.statistics button {
-
-}
+.statistics button {}
 </style>

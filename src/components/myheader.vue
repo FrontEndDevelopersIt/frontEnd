@@ -1,31 +1,18 @@
 <template>
 <header>
   <div class="header">
-
     <div class="left_container ">
-
-
       <span>
-                      <router-link to="/">
-                       <img src="/src/img/exposit3.png" alt="">
+            <router-link to="/">
+                <img src="/src/img/exposit3.png" alt="">
                        </router-link>
-</span>
-      <span>
-
-
-                        <router-link to="/">
+                    </span>
+                    <span>
+                      <router-link to="/">
                             <p>Главная</p>
                         </router-link>
 
 </span>
-      <span>
-
-                        <router-link to="/contacts">
-                            <p>Контакты</p>
-                        </router-link>
-
-</span>
-
 
     </div>
 
@@ -34,14 +21,17 @@
 
 
       <div class="search">
+
         <input type="search" name="" v-model="searchQuery" placeholder="Введите текст">
 
       </div>
+          <button v-if='show' type="button" name="button" @click="searchButton"><i class="material-icons">search</i></button>
     </div>
+
 
     <div class="right_container">
 
-<span>
+      <span>
 
       <div class="dropdown">
         <p>
@@ -50,7 +40,7 @@
       </div>
 </span>
 
-<span>
+      <span>
 
       <router-link to="/singIn">
         <div class="reg">
@@ -59,21 +49,15 @@
       </router-link>
 </span>
 
-<span>
+      <span>
       <router-link to="/registration">
         <div class="reg">
           <p>Регистрация</p>
         </div>
       </router-link>
 </span>
-
-
     </div>
-
   </div>
-
-
-
 </header>
 </template>
 
@@ -87,16 +71,42 @@ export default {
   data() {
     return {
       show: false,
-      searchQuery: null
     };
   },
   components: {
     dropDown
+  },
+  computed: {
+    searchQuery: {
+      set(value) {
+        this.$store.commit("searchQuery", value)
+      },
+      get() {
+        return this.$store.getters.searchQuery
+      }
+    }
+  },
+  methods: {
+    hideProfile() {
+      this.$store.dispatch('hideProfile')
+    }
+  },
+  watch: {
+    'searchQuery'(value){
+      if (value.length > 3){
+        this.show = true
+      }
+      if (value.length < 3){
+        this.show = false
+      }
+    }
   }
+
 }
 </script>
 
 <style scoped>
+
 header {
   background-color: #039BE5 !important;
   font-size: 20px;
@@ -117,13 +127,8 @@ header p {
 }
 
 .left_container {
-  width: 25%;
+  width: 20%;
   margin-bottom: 20px;
-}
-
-li {
-  display: inline-block;
-  margin-left: 10px;
 }
 
 .left_container span {
@@ -131,11 +136,11 @@ li {
   margin-left: 10px;
   padding-top: 10px;
 }
+
 .right_container span {
   display: inline-block;
   margin-left: 10px;
   padding-top: 5px;
-
 }
 
 .reg>p {
@@ -172,16 +177,18 @@ a:hover {
   background-color: white;
   padding-left: 7px;
   border-bottom: none!important;
-width: 95%;
-  height: 40px;
+  width: 85%;
+  height: 38px;
+  margin-left: 20px;
 }
+
 
 input {
   line-height: 3;
   font-size: 20px;
   cursor: pointer;
-
-  float: right;
+  float: left;
+  display: inline-block;
 }
 
 ::-webkit-input-placeholder {
@@ -206,7 +213,21 @@ input[type=search]:focus {
 }
 
 .search_cont {
-  width: 50%;
-  align-self  : center;
+  width: 60%;
+  align-self: center;
 }
+
+.search_cont > button {
+  width: 5%;
+  font-size: 20px;
+  background-color: #ef7f35;
+  padding: 4px 5px;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+.search_cont button i {
+  padding: 0px 0px;
+}
+
+
 </style>
